@@ -6,7 +6,7 @@ import AdminPanel from './AdminPanel';
 import Registration from './Registration';
 
 function ProtectedRoute({ element: Element }) {
-    const [authStatus, setAuthStatus] = useState(null); // null = loading
+    const [authStatus, setAuthStatus] = useState(null);
     const location = useLocation();
 
     useEffect(() => {

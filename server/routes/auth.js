@@ -48,6 +48,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/check', async (req, res) => {
+    res.set('Cache-Control', 'no-store');
     const token = req.cookies.token;
     if (!token) return res.json({ authenticated: false });
     try {

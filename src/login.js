@@ -25,7 +25,6 @@ const Login = () => {
             if (!res.ok) {
                 throw new Error(data.message || 'Login failed');
             }
-
             navigate('/AdminPanel');
         } catch (err) {
             setError(err.message || 'Something went wrong..');
