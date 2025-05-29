@@ -7,7 +7,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+const origins = ['http://localhost:3000', 'https://data-base-inky.vercel.app/']
+
+app.use(cors({ origin: origins, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
