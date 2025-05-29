@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 const origins = [
-    'http://localhost:3000', 
+    'http://localhost:4000', 
     'https://data-base-inky.vercel.app',
     'https://db-backend-0p5f.onrender.com']
 

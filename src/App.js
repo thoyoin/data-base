@@ -5,12 +5,14 @@ import Login from './login';
 import AdminPanel from './AdminPanel';
 import Registration from './Registration';
 
+const API = process.env.REACT_APP_API;
+
 function ProtectedRoute({ element: Element }) {
     const [authStatus, setAuthStatus] = useState(null);
     const location = useLocation();
 
     useEffect(() => {
-        fetch('https://db-backend-0p5f.onrender.com/api/auth/check', {
+        fetch(`${API}/api/auth/check`, {
             credentials: 'include'
         })
             .then(res => res.json())

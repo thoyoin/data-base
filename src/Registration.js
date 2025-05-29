@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API = process.env.REACT_APP_API;
+
 const Registration = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +19,7 @@ const Registration = () => {
             return;
         }
         try {
-            const res = await fetch('https://db-backend-0p5f.onrender.com/api/auth/register', {
+            const res = await fetch(`${API}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password, name })
@@ -30,7 +32,7 @@ const Registration = () => {
             }
 
             setMessage('Registration successful! Redirecting to login...');
-            setTimeout(() => navigate('/Login'), 2000);
+            setTimeout(() => navigate('/Login'), 1000);
             
         } catch (err) {
             setError(err.message);

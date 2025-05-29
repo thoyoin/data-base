@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+
+const API = process.env.REACT_APP_API;
 
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
@@ -10,7 +15,7 @@ const AdminPanel = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await fetch('https://db-backend-0p5f.onrender.com/api/users', {
+                const res = await fetch(`${API}/api/users`, {
                     credentials: 'include',
                 });
                 if (res.status === 403) {
@@ -52,14 +57,14 @@ const AdminPanel = () => {
     const performAction = async (action) => {
         if (selected.size === 0) return;
         const ids = Array.from(selected);
-        await fetch(`https://db-backend-0p5f.onrender.com/api/users/${action}`, {
+        await fetch(`${API}/api/users/${action}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({ ids })
         });
 
-        const res = await fetch('https://db-backend-0p5f.onrender.com/api/users', { credentials: 'include' });
+        const res = await fetch(`${API}/api/users`, { credentials: 'include' });
         if (res.status === 403) {
             navigate('/Login');
             return;
@@ -133,7 +138,7 @@ const AdminPanel = () => {
                                     </th>
                                     <td className={user.is_blocked ? 'text-black-50 text-decoration-line-through' : ''}>{user.name}</td>
                                     <td className={user.is_blocked ? 'text-black-50' : ''}>{user.email}</td>
-                                    <td className={user.is_blocked ? 'text-black-50 lastSeen' : 'lastSeen'} title={user.last_login ? new Date(user.last_login).toLocaleString() : 'Never'}>
+                                    <td className={user.is_blocked ? 'text-black-50 lastSeen' : 'lastSeen'} title={user.last_login ? dayjs(user.last_login).fromNow() : 'Never'}>
                                         {user.last_login ? formatRelativeTime(user.last_login) : 'Never'}
                                     </td>
                                 </tr>
