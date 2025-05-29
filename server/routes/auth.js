@@ -44,7 +44,11 @@ router.post('/login', async (req, res) => {
     });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    res.cookie('token', token, { httpOnly: true }).json({ message: 'Logged in' });
+    res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'None',
+        secure: true
+      }).json({ message: 'Logged in' });
 });
 
 router.get('/check', async (req, res) => {
