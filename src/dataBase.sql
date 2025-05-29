@@ -9,7 +9,6 @@ CREATE TABLE users (
     is_blocked BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     last_login DATETIME,
-    /* UNIQUE INDEX idx_email (email) */
 );
 
 CREATE UNIQUE INDEX idx_email ON users (email);

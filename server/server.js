@@ -6,6 +6,7 @@ import userRoutes from './routes/users.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
+
 const app = express();
 const origins = [
     'http://localhost:3000', 

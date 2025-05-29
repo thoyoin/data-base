@@ -6,11 +6,15 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
     const { email, password, name } = req.body;
+    console.log('Register request:', req.body);
+
     try {
         const hash = await bcrypt.hash(password, 10);
         await pool.query('INSERT INTO users (email, password, name) VALUES (?, ?, ?)', [email, hash, name]);
         res.json({ message: 'Registered successfully' });
     } catch (err) {
+        console.error('Register error:', err);
+
         if (err.code === 'ER_DUP_ENTRY') {
         return res.status(400).json({ message: 'Email already exists' });
         }
