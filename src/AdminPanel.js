@@ -6,14 +6,29 @@ const AdminPanel = () => {
     const [selected, setSelected] = useState(new Set());
     const [selectAll, setSelectAll] = useState(false);
 
+    const navigate = useNavigate();
     useEffect(() => {
-        fetch('https://db-backend-0p5f.onrender.com/api/users', {
-            credentials: 'include',
-        })
-            .then(res => res.json())
-            .then(data => setUsers(data))
-            .catch(err => console.error('Failed to load users', err));
-    }, []);
+        const fetchUsers = async () => {
+            try {
+                const res = await fetch('https://db-backend-0p5f.onrender.com/api/users', {
+                    credentials: 'include',
+                });
+                if (res.status === 403) {
+                    navigate('/Login');
+                    return;
+                }
+                if (!res.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+                const data = await res.json();
+                setUsers(data);
+            } catch (err) {
+                console.error('Failed to load users', err);
+                setUsers([]);
+            }
+        };
+        fetchUsers();
+    }, [navigate]);
 
     const handleSelect = (id) => {
         const newSet = new Set(selected);
@@ -43,13 +58,23 @@ const AdminPanel = () => {
             credentials: 'include',
             body: JSON.stringify({ ids })
         });
+
         const res = await fetch('https://db-backend-0p5f.onrender.com/api/users', { credentials: 'include' });
+        if (res.status === 403) {
+            navigate('/Login');
+            return;
+        }
+        if (!res.ok) {
+            console.error('Failed to fetch users after action');
+            setUsers([]);
+            return;
+        }
         const updated = await res.json();
         setUsers(updated);
         setSelected(new Set());
         setSelectAll(false);
     };
-
+    
     const formatRelativeTime = (dateStr) => {
         const now = new Date();
         const past = new Date(dateStr);
@@ -62,9 +87,8 @@ const AdminPanel = () => {
         return past.toLocaleDateString();
     };
 
-    const nav = useNavigate();
     const toLogin = () => {
-        nav('/Login');
+        navigate('/Login');
     }
 
     return (
@@ -92,7 +116,7 @@ const AdminPanel = () => {
                         </button>
                         <input id='filter' className="form-control float-end mx-2 ms-auto" style={{maxWidth: '230px'}} type="text" placeholder="Filter" aria-label="default input example"></input>
                     </div>
-                    <table id='table' className="table table-light h-100 align-middle" style={{maxWidth:'800px' , maxHeight:'300px'}}>
+                    <table id='table' className="table table-light h-100 align-middle" style={{maxWidth:'800px' , maxHeight:'150px'}}>
                     <thead>
                             <tr>
                                 <th scope="col"><input type="checkbox" checked={selectAll} onChange={handleSelectAll} /></th>
