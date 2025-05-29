@@ -7,7 +7,7 @@ const AdminPanel = () => {
     const [selectAll, setSelectAll] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/users', {
+        fetch('https://db-backend-0p5f.onrender.com/api/users', {
             credentials: 'include',
         })
             .then(res => res.json())
@@ -37,13 +37,13 @@ const AdminPanel = () => {
     const performAction = async (action) => {
         if (selected.size === 0) return;
         const ids = Array.from(selected);
-        await fetch(`http://localhost:4000/api/users/${action}`, {
+        await fetch(`https://db-backend-0p5f.onrender.com/api/users/${action}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({ ids })
         });
-        const res = await fetch('http://localhost:4000/api/users', { credentials: 'include' });
+        const res = await fetch('https://db-backend-0p5f.onrender.com/api/users', { credentials: 'include' });
         const updated = await res.json();
         setUsers(updated);
         setSelected(new Set());

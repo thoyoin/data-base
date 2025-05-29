@@ -17,7 +17,7 @@ const Registration = () => {
             return;
         }
         try {
-            const res = await fetch('http://localhost:4000/api/auth/register', {
+            const res = await fetch('https://db-backend-0p5f.onrender.com/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password, name })

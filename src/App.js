@@ -10,7 +10,7 @@ function ProtectedRoute({ element: Element }) {
     const location = useLocation();
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/auth/check', {
+        fetch('https://db-backend-0p5f.onrender.com/api/auth/check', {
             credentials: 'include'
         })
             .then(res => res.json())
