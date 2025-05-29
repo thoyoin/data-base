@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
     } catch (err) {
         console.error('Register error:', err);
 
-        if (err.code === 'ER_DUP_ENTRY') {
+        if (err.code === 'SQLITE_CONSTRAINT' || err.message.includes('UNIQUE')) {
             return res.status(400).json({ message: 'Email already exists' });
         }
         res.status(500).json({ message: 'Server error' });
